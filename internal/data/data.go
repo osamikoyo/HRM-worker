@@ -7,7 +7,7 @@ import (
 )
 
 type Storage struct{
-	*gorm.DB
+	db *gorm.DB
 }
 
 func InitStorage(dsn string) (*Storage, error) {
@@ -20,6 +20,7 @@ func InitStorage(dsn string) (*Storage, error) {
 	return &Storage{db}, err
 }
 
-func (s *Storage) Create(worker *models.Worker) error {
-	
+func (s *Storage) Create(worker *models.Worker) (uint64, error) {
+	err := s.db.Create(worker).Error
+	return worker.UserID, err
 }
