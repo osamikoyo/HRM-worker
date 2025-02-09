@@ -13,6 +13,8 @@ message Worker{
 service WorkerService{
     rpc Add(AddWorkerRequest) returns (AddWorkerResponse);
     rpc Update (UpdateWorkerRequest) returns (Response);
+    rpc Delete (DeleteWorkerRequest) returns (Response);
+    rpc Get (GetWorkerRequest) returns (GetWorkerResponse);
 }
 
 message Response{
@@ -22,6 +24,11 @@ message Response{
 
 message GetWorkerRequest{
     uint64 UserID = 1;
+}
+
+message GetWorkerResponse{
+    Worker worker = 1;
+    Response response = 2;
 }
 
 message AddWorkerResponse{
