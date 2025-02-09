@@ -9,6 +9,7 @@ type Worker struct{
 	Firstname string 
 	Secondname string
 	Salary uint64
+	Email string
 	Post string
 }
 
@@ -19,6 +20,7 @@ func ToModels(pbwork *pb.Worker) *Worker {
 		Firstname: pbwork.Firstname,
 		Secondname: pbwork.Secondname,
 		Post: pbwork.Post,
+		Email: pbwork.Email,
 	}
 
 	return work
@@ -27,6 +29,7 @@ func ToModels(pbwork *pb.Worker) *Worker {
 func ToPB(worker *Worker) *pb.Worker {
 	work := &pb.Worker{
 		UserID: worker.UserID,
+		Email: worker.Email,
 		Salary: worker.Salary,
 		Firstname: worker.Firstname,
 		Secondname: worker.Secondname,

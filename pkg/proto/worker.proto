@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package = "./pkg/pb";
+
+message Worker{
+    uint64 UserID = 1;
+    string Post = 2;
+    string Email = 6;
+    string Firstname = 3;
+    string Secondname = 4;
+    uint64 Salary = 5;
+}
+
+service WorkerService{
+    rpc Add(AddWorkerRequest) returns (AddWorkerResponse);
+    rpc Update (UpdateWorkerRequest) returns (Response);
+    rpc Delete (DeleteWorkerRequest) returns (Response);
+    rpc Get (GetWorkerRequest) returns (GetWorkerResponse);
+}
+
+message Response{
+    string Error = 1;
+    int64 Status = 2;
+}
+
+message GetWorkerRequest{
+    uint64 UserID = 1;
+}
+
+message GetWorkerResponse{
+    Worker worker = 1;
+    Response response = 2;
+}
+
+message AddWorkerResponse{
+    Response respone = 1;
+    uint64 UserID = 2;
+}
+
+message UpdateWorkerRequest{
+    uint64 UserID = 1;
+    Worker NewWorkerParametres = 2; 
+}
+
+message AddWorkerRequest{
+    Worker worker = 1;
+}
+
+message DeleteWorkerRequest{
+   uint64 UserID = 1;
+}

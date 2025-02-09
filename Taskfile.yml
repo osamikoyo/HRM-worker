@@ -10,4 +10,4 @@ tasks:
       - ./bin/app
   proto:
     cmds:
-      - protoc --go_out=. --go-grpc_out=. pkg/proto/main.proto
+      - protoc --go_out=. --go-grpc_out=. pkg/proto/worker.proto
