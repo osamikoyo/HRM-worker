@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"os"
+
+	"github.com/spf13/viper"
+)
 
 type Config struct{
 	Port string `mapstructure:"PORT"`
@@ -22,6 +26,8 @@ func LoadConfig() (c Config, err error) {
     }
 
     err = viper.Unmarshal(&c)
+
+    c.DatabaseURL = os.Getenv("TURSO_URL")
 
     return
 }
