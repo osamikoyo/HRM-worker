@@ -5,7 +5,7 @@ import (
 )
 
 type Worker struct{
-	UserID uint64  `gorm:"primaryKey;autoIncrement"`
+	UserID uint64 
 	Firstname string 
 	Secondname string
 	Salary uint64

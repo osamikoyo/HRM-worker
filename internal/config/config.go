@@ -5,6 +5,7 @@ import "github.com/spf13/viper"
 type Config struct{
 	Port string `mapstructure:"PORT"`
 	Host string `mapstructure:"HOST"`
+    DatabaseURL string `mapstructure:"TURSO_URL"`
 }
 
 func LoadConfig() (c Config, err error) {

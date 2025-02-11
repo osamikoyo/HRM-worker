@@ -1,27 +1,42 @@
 package data
 
 import (
+	"database/sql"
+	"github.com/osamikoyo/hrm-worker/internal/config"
 	"github.com/osamikoyo/hrm-worker/internal/data/models"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 type Storage struct{
-	db *gorm.DB
+	db *sql.DB
 }
 
-func InitStorage(dsn string) (*Storage, error) {
-	db, err := gorm.Open(postgres.Open(dsn))
+func InitStorage(cfg *config.Config) (*Storage, error) {
+	db, err := sql.Open("libsql", cfg.DatabaseURL)
+	if err != nil {
+	  return nil, err
+	}
+	defer db.Close()
+
+	query := `CREATE TABLE IF NOT EXISTS workers (
+    UserID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Firstname TEXT NOT NULL,
+    Secondname TEXT NOT NULL,
+    Salary INTEGER NOT NULL,
+    Email TEXT NOT NULL UNIQUE,
+    Post TEXT NOT NULL
+);`
+
+	_, err = db.Query(query)
 	if err != nil{
 		return nil, err
 	}
-	err = db.AutoMigrate(&models.Worker{})
 
 	return &Storage{db}, err
 }
 
 func (s *Storage) Create(worker *models.Worker) (uint64, error) {
-	err := s.db.Create(worker).Error
+	_, err := s.db.Query("INSERT INTO workers (Firstname, Secondname, Salary, Email, Post) values (?1, ?2, ?3, ?4, ?5)",
+	worker.Firstname, worker.Secondname, worker.Salary, worker.Email, worker.Post)
 	return worker.UserID, err
 }
 
