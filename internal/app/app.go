@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"fmt"
 	"net"
 
@@ -30,7 +31,13 @@ func Init() (*App, error) {
 	}, nil
 }
 
-func (a *App) Run() error {
+func (a *App) Run(ctx context.Context) error {
+	go func ()  {
+		<- ctx.Done()
+		a.gRPC.Stop()
+		a.loger.Info().Msg("Server shutdown!:3")
+	}()
+
 	a.loger.Info().Msg("starting the grpc server...")
 	pb.RegisterWorkerServiceServer(a.gRPC, &server.Server{})
 
